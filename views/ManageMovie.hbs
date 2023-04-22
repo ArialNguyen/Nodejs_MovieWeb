@@ -1,0 +1,358 @@
+<link rel="stylesheet" href="/css/HomePage.css">
+<link rel="stylesheet" href="/css/ManageComment.css">
+<script>
+    function delete_movie(x) {
+        let temp = x.getAttribute("data-id")
+        $(".btn-delete-movie").off("click")
+        $(".btn-delete-movie").click(async function (e) {
+            const { data: { success } } = await axios.delete(`/api/v1/movie/${temp}`)
+            if (success) {
+                window.location.reload()
+            }
+        })
+    }
+
+    function update_movie(x) {
+        let temp = x.getAttribute("data-id")
+        let row = x.parentElement.parentElement.parentElement
+        let country = row.children[3].innerText
+        $(".btn-update-movie").click(async function (e) {
+            let movie = {
+                name: $("#name-update").val(),
+                desc: $("#desc-update").val(),
+                genre: $("#genre-update").val(),
+                director: $("#director-update").val(),
+                releaseDate: $("#releaseDate-update").val(),
+                status: $("#status-update").val(),
+                country: country
+            }
+
+            const { data: { success } } = await axios.patch(`/api/v1/movie/${temp}?all=1`, movie)
+            if(success){
+                window.location.reload()
+            }
+            $(".btn-update-movie").off("click")
+        })
+    }
+</script>
+<div class="container">
+    <div class="m-4">
+        <h2 class="text-center text-white">CHÀO MỪNG QUẢN LÝ</h2>
+    </div>
+    <div class="row">
+        <!-- Add Movie -->
+        <div class="col-md-4 col-sm-12 text-white mb-3">
+            <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px" data-toggle="modal" data-target="#modal-addFilm">
+                <div style="display: inline; margin: auto">
+                    <h4 style="display: inline; vertical-align: middle;">THÊM PHIM MỚI</h4>
+                    <img src="https://cdn-icons-png.flaticon.com/512/4315/4315609.png" alt="add" width="50px" class="ml-3" />
+                </div>
+            </button>
+        </div>
+        <!-- Add Movie -->
+
+        <!-- Delete Movie -->
+        {{!-- <div class="col-md-4 col-sm-12 text-white mb-3">
+            <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px" data-toggle="modal" data-target="#modal-deleteFilm">
+                <div style="display: inline; margin: auto">
+                    <h4 style="display: inline; vertical-align: middle;">XÓA PHIM</h4>
+                    <img src="https://cdn-icons-png.flaticon.com/128/1828/1828843.png" alt="add" width="50px" class="ml-3" />
+                </div>
+            </button>
+        </div> --}}
+        <!-- Delete Movie -->
+
+        <!-- Update Movie -->
+        {{!-- <div class="col-md-4 col-sm-12 text-white mb-3 " style="margin: 0 auto;">
+            <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px" data-toggle="modal" data-target="#modal-updateFilm">
+                <div style="display: inline; margin: auto">
+                    <h4 style="display: inline; vertical-align: middle;">CẬP NHẬT</h4>
+                    <img src="https://cdn-icons-png.flaticon.com/128/9497/9497023.png" alt="add" width="50px" class="ml-3" />
+                </div>
+            </button>
+        </div> --}}
+        <!-- Update Movie -->
+    </div>
+
+    <!-- table -->
+    <table class="table table-bordered mt-3 text-white text-center">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên phim</th>
+                <th>Đạo diễn</th>
+                <th>Quốc gia</th>
+                <th>Status</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each movies}}
+            <tr>
+                {{#with this}}
+                <td>{{plus @index}}</td>
+                <td><a href="http://localhost:5000/HomeManage/Movie/{{_id}}">{{name}}</a></td>
+                <td>{{director}}</td>
+                <td>{{country}}</td>
+                <td>{{status}}</td>
+                <td>
+                    <span><i onclick="delete_movie(this)" class="fa fa-trash btn-delete" data-id="{{_id}}" data-toggle="modal" data-target="#modal-deleteFilm"></i></span>
+                    <span><i onclick="update_movie(this)" class="fa fa-edit action" data-id="{{_id}}" data-toggle="modal" data-target="#modal-updateFilm"></i></span>
+                </td>
+                {{/with}}
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    <!-- table -->
+</div>
+
+<!-- Modal them phim -->
+<div class="modal fade" id="modal-addFilm" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header row">
+                <div class="col-11 text-center mt-3">
+                    <h2 class="modal-title">THÊM PHIM MỚI</h2>
+                    <p>Nhập đầy đủ thông tin phim</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="form-label" for="movieName"><b>Tên phim</b></label>
+                    <input type="movieName" name="movieName" id="name" class="form-control" />
+                </div>
+
+                <div class="form-group" style="width: 100%">
+                    <label class="form-label"><b>Poster phim</b></label>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label" for="namePoster"><i>Name Poster</i></label>
+                            <input type="text" name="namePoster" id="namePoster" class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="linkPoster"><i>Link Poster</i></label>
+                            <input type="text" name="linkPoster" id="linkPoster" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group mb-3" style="width: 100%">
+                    <label class="form-label" for="Link-Trailer"><b>Trailer</b></label>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label" for="nameTrailer"><i>Name Trailer</i></label>
+                            <input type="text" name="nameTrailer" id="nameTrailer" class="form-control" />
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label" for="linkTrailer"><i>Link Trailer</i></label>
+                            <input type="text" name="linkTrailer" id="linkTrailer" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="director"><b>Đạo diễn</b></label>
+                            <input type="text" name="director" id="director" class="form-control" />
+                        </div>
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="actor"><b>Ngày công chiếu</b></label>
+                            <input type="date" name="actor" id="releaseDate" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="Category"><b>Thể loại</b></label>
+                            <select class="form-control" id="genre">
+                                {{#each genre}}
+                                {{#with this}}
+                                <option value="{{_id}}">{{name}}</option>
+                                {{/with}}
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="nation"><b>Quốc gia</b></label>
+                            <select class="form-control" id="country">
+                                <option>Hàn Quốc</option>
+                                <option>Trung Quốc</option>
+                                <option>Việt</option>
+                                <option>Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="summary"><b>Tóm tắt thông tin phim</b></label>
+                    <textarea class="form-control" rows="4" id="desc"></textarea>
+                </div>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-primary" value="Reset">Tạo lại</button>
+                <button type="submit" class="btn btn-danger btn-add-movie">Thêm phim</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal them phim -->
+
+<!-- Modal update -->
+<div class="modal fade" id="modal-updateFilm" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header row">
+                <div class="col-11 text-center mt-3">
+                    <h2 class="modal-title">CẬP NHẬT PHIM</h2>
+                    <p>Nhập đầy đủ thông tin phim cần cập nhật</p>
+                </div>
+                <div class="col-1">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="movieName"><b>Tên phim</b></label>
+                            <input type="movieName" name="movieName" id="name-update" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-label" for="status"><b>Status</b></label>
+                            <input type="status" name="status" id="status-update" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="director"><b>Đạo diễn</b></label>
+                            <input type="text" name="director" id="director-update" class="form-control" />
+                        </div>
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="actor"><b>Ngày công chiếu</b></label>
+                            <input type="date" name="actor" id="releaseDate-update" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="Category"><b>Thể loại</b></label>
+                            <select class="form-control" id="genre-update">
+                                {{#each genre}}
+                                {{#with this}}
+                                    <option value="{{_id}}">{{name}}</option>
+                                {{/with}}
+                                {{/each}}
+                            </select>
+                        </div>
+                        <div class="form-group mb-3" style="width: 100%">
+                            <label class="form-label" for="nation"><b>Quốc gia</b></label>
+                            <select class="form-control" id="country-update">
+                                <option>Hàn Quốc</option>
+                                <option>Trung Quốc</option>
+                                <option>Việt</option>
+                                <option>Khác</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="summary"><b>Tóm tắt thông tin phim</b></label>
+                    <textarea class="form-control" rows="4" id="desc-update"></textarea>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-primary" data-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-danger btn-update-movie">Cập nhật</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal update -->
+
+<!-- Modal delete film -->
+<div class="modal fade" id="modal-deleteFilm" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="m-auto">
+                    <h4 class="modal-title ">Bạn chắc chắn muốn xóa bộ phim này?</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="submit" class="btn btn-danger btn-delete-movie">Xóa</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- Modal delete film -->
+
+<footer class="footer flex-shrink-0 py-2 bg-dark text-white">
+    <div class="container text-center">
+        <p>Copyright &copy HAY Phim</p>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function (e) {
+        $(".btn-add-movie").off("click")
+        $(".btn-add-movie").click(async function (e) {
+            var options = document.getElementById("genre");
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].selected) {
+                    var temp = options[i].value;
+                }
+            }
+
+            var countrys = document.getElementById("country");
+            for (var i = 0; i < countrys.length; i++) {
+                if (countrys[i].selected) {
+                    var country = countrys[i].value;
+                }
+            }
+
+            let movie = {
+                name: $("#name").val(),
+                poster: [
+                    {
+                        name: $("#namePoster").val(),
+                        link: $("#linkPoster").val()
+                    }
+                ],
+                trailer: [
+                    {
+                        name: $("#nameTrailer").val(),
+                        link: $("#linkTrailer").val()
+                    }
+                ],
+                desc: $("#desc").val(),
+                genre: temp,
+                director: $("#director").val(),
+                releaseDate: $("#releaseDate").val(),
+                country: country
+            }
+            const { data: { success } } = await axios.post(`/api/v1/movie`, movie)
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+    })
+</script>

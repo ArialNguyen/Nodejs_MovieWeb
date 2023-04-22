@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <!-- Font Awesome CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <title>HAY Cinema | Xem phim thả ga không lo deadline</title>
+    <link rel="icon" href="https://www.3playmedia.com/wp-content/uploads/4-16.png" type="image/x-icon">
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/FogotPw.css">
+</head>
+<body>
+<div class="container">
+    <div class="mt-5 p-4 border rounded w-50 mx-auto form-color">
+        <h1 class="custom">QUÊN MẬT KHẨU</h1>
+        <form action="../php/User/changePass.php" method="post" class="needs-validation" novalidate>
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" placeholder="Nhập email" id="email" name="email" onfocusout="leaveEmail(this)" required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-email d-none" id="checkMail">Email này chưa được đăng kí</div>
+                <div class="invalid-feedback">Vui lòng nhập chính xác email</div>
+            </div>
+            <button type="submit" class="btn btn-primary" name="forgot_pass" value="resetPass" onclick="valid(this)">Khôi phục mật khẩu</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>    
+    
+    
+    

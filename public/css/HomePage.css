@@ -1,0 +1,156 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #FFFFFF;
+    min-height: 100vh;
+    overflow-x: auto;
+    background-color: #081B27;
+    margin: 0;
+    padding: 0;
+}
+
+.input-group {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.has-search .form-control {
+    border: 1px solid #d2ccc4;
+    display: inline;
+    padding: 5px;
+    border-radius: 5px;
+    width: 80%;
+}
+
+.has-search .form-control-feedback {
+    right: 0;
+    float: right;
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+    margin-right: 13%;
+}
+
+.link-tab {
+    color: white !important;
+    font-weight: bold;
+}
+
+.tab-filter:hover {
+    color: black !important;
+    font-weight: bold;
+}
+
+.item {
+    padding: 10px;
+    border-radius: 50px;
+}
+
+.item:hover {
+    background-color: #F0A851;
+}
+
+.tab-link-select {
+    color: black;
+}
+
+.middle {
+    transition: .5s ease;
+    opacity: 0;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.poster:hover .image-poster {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+.poster:hover .middle {
+    opacity: 1;
+}
+
+.seat {
+    width: 100%;
+}
+
+.column {
+    width: 6.6666%;
+    display: inline;
+}
+
+.carousel-control-next {
+    width: 50px;
+}
+
+.carousel-control-prev {
+    width: 50px;
+}
+
+.poster:hover .image-poster-header {
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+
+.image-poster-header {
+    border-radius: 5px;
+}
+
+#hotMovie {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.559), rgba(0, 0, 0, 0.559)), url('../Images/BackGroundLogin.png');
+}
+
+.nameMovie {
+    color: white;
+    font-size: larger;
+}
+
+.danh-sach-phim {
+    width: 100%;
+    height: auto;
+}
+
+.article {
+    width: 180px;
+    height: 250px;
+}
+
+.image-poster {
+    width: 180px;
+    height: 250px;
+    border-radius: 5px;
+}
+
+.image-film {
+    width: 80px;
+    height: 130px;
+    border-radius: 5px;
+}
+
+.tab-content {
+    color: white;
+}
+
+.footer {
+    position: sticky;
+    top: 100%;
+    background: #051520 !important;
+    text-align: center;
+    color: #fff;
+    padding: 1rem;
+    margin-top: 15px;
+}

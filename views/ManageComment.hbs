@@ -1,0 +1,33 @@
+    <link rel="stylesheet" href="/css/HomePage.css">
+    <link rel="stylesheet" href="/css/ManageComment.css">
+
+    <div class="container">
+        <div class="m-4">
+            <h2 class="text-center text-white">CHÀO MỪNG QUẢN LÝ</h2>
+            <p class="text-center text-white">Nhấn chọn phim để xem chi tiết các bình luận về bộ phim đó</p>
+        </div>
+        <div class="row">
+            <div class="text-white">
+                <div class="row ">
+                    {{#each movies}}
+                            <div class="danh-sach-phim poster col-xl-2 col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                <div class="article">
+                                    <img src="{{this.poster.0.link}}" alt="" width="100%" class="image-poster">
+                                </div>
+                                <div class="middle">
+                                    <a href="http://localhost:5000/HomeManage/Comment/{{this._id}}" type="button" class="btn">
+                                        <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{this.name}}" width="80px">
+                                    </a>
+                                </div>
+                                <p>{{this.name}}</p>
+                            </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class=" footer flex-shrink-0 py-2 bg-dark text-white">
+        <div class="container text-center">
+            <p>Copyright &copy HAY Phim</p>
+        </div>
+    </footer>

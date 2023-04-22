@@ -1,0 +1,228 @@
+<link rel="stylesheet" href="/css/WatchMovie.css">
+<link rel="stylesheet" href="/css/HomePage.css">
+<script>
+    
+</script>
+<script type="module">
+    import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
+    var socket = io('http://localhost:5000/');
+    document.getElementById("postCmt").addEventListener("click", postCmt, false)
+    async function postCmt() {
+        try{
+            const {data: {success, comment, user}} = await axios.post("/api/v1/comment", {content: $("#comment").val(), movieId: '{{movie._id}}', username: '{{user.username}}',createdBy: '{{user._id}}'  })
+            if(success){
+                socket.emit("USER_SEND_CMT", comment)
+                const frameCmt = document.getElementById("comment-frame")
+                frameCmt.innerHTML += html_cmt(comment.content, user.username)
+            }
+            $("#comment").val('')
+        }catch(e){
+            if(e.response.status == 401){
+                alert("Vui long dang nhap de binh luan")
+            }
+        }
+    }
+    socket.on("SERVER_SEND_COMMENT", function(data){
+        const frameCmt = document.getElementById("comment-frame")
+        frameCmt.innerHTML += html_cmt(data.content, data.username)
+    })
+
+    function html_cmt(content, username) {
+        return `
+            <div class="row ml-1 mr-1 mb-1" style="border: rgb(196, 193, 193) 1px solid; box-shadow: 1px 1px 1px #AAA;">
+                <div class="col-1 mt-2">
+                    <img style="border: rgb(225, 220, 220) 1px solid;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" alt="user" width="50px">
+                </div>
+                <div class="col-11" style="left: -25px; border-radius: 5px;">
+                    <p class="name" style="font-weight:bold; margin-top: 10px; margin-bottom: 0px;">${username}</p>
+                    <p class="comment" style="word-wrap: break-word;">${content}</p>
+                </div>
+            </div>
+        `
+    }
+    var star = -1
+    $('.star-ip').on("click", async function (event) {
+        if (star != this.value) {
+            try{
+                const { data: res_rating } = await axios.post(`/api/v1/rating?movieId={{movie._id}}&star=${this.value}`)
+                star = this.value
+                $('#my-alert').fadeIn(1000);
+                setTimeout(function () {
+                    $('#my-alert').fadeOut(1000)
+                }, 500)
+            }catch(e){
+                if(e.response.status == 401){
+                    alert("YOu need to login for rating this film")
+                }
+            }
+        }
+    })
+</script>
+<style>
+    .hover{
+        cursor: pointer;
+    }
+</style>
+<script>
+    
+</script>
+<div class="container-fluid main">
+    <div class="row p-3 screen">
+        <div class="row col-xl-9 col-12 ml-4">
+            <div class="col-12">
+                <!-- screen -->
+                <div id="headerPopup" class="mfp-hide embed-responsive embed-responsive-21by9 mt-4">
+                    <iframe width="560" height="315" src="{{link}}" title="" frameborder="0" allow=" autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+                <!-- screen -->
+                <h2 class="mt-3" style="color: white;">{{movie.name}}</h2>
+                <!-- episode -->
+                <div class="mt-4 btn-ep">
+                    <h4 class="color">CHỌN TẬP PHIM</h4>
+                    {{#with movie}}
+                    {{#each this.episodes}}
+                    {{#with this}}
+                    <a href="http://localhost:5000/movie/{{../../movie._id}}/{{changeURL name}}" class="btn btn-light mt-2">{{name}}</a>
+                    {{/with}}
+                    {{/each}}
+                    {{/with}}
+                </div>
+                <!-- episode -->
+
+                <!-- Đánh giá -->
+                <div>
+                    <h4 class="color mt-5">ĐÁNH GIÁ PHIM</h4>
+                    <div class="stars" style="margin-left: -10px; margin-top: -10px;">
+                        <form action="">
+                            <input class="star star-ip star-5" value="5" id="star-5" type="radio" name="star" />
+                            <label class="star star-5" for="star-5" title="gorgeous"></label>
+
+                            <input class="star star-ip star-4" value="4" id="star-4" type="radio" name="star" />
+                            <label class="star star-4" for="star-4" title="good"></label>
+
+                            <input class="star star-ip star-3" value="3" id="star-3" type="radio" name="star" />
+                            <label class="star star-3" for="star-3" title="regular"></label>
+
+                            <input class="star star-ip star-2" value="2" id="star-2" type="radio" name="star" />
+                            <label class="star star-2" for="star-2" title="poor"></label>
+
+                            <input class="star star-ip star-1" value="1" id="star-1" type="radio" name="star" />
+                            <label class="star star-1" for="star-1" title="bad"></label>
+                        </form>
+                    </div>
+                    <div style="display: none; margin-top: -10px;" id="my-alert" class="alert alert-success">Cảm ơn bạn đánh giá phim!!</div>
+                </div>
+                <!-- Đánh giá -->
+
+                <!-- Bình luận -->
+                <div>
+                    <h4 class="color">BÌNH LUẬN VỀ PHIM</h4>
+                    <div style="background-color: white; padding: 20px;">
+                        <p class="font-weight-bold ml-1">{{totalCMT}} Bình luận</p>
+                        <div class="row">
+                            <div class="form-group col">
+                                <label for="comment"></label>
+                                <textarea class="form-control form-control-sm p-2" name="comment" id="comment" rows="3" placeholder="Viết bình luận..." required></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col text-right">
+                                {{!-- <button class="btn btn-primary btn-post font-weight-bold" onclick="postCmt(this)">Đăng</button> --}}
+                                <button class="btn btn-primary btn-post font-weight-bold" id="postCmt">Đăng</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color: white; padding: 10px; display: flex; flex-direction: column-reverse;" id="comment-frame">
+                        {{#each comments}}
+                        {{#with this}}
+                        <div class="row ml-1 mr-1 mb-2" style="border: rgb(196, 193, 193) 1px solid; box-shadow: 1px 1px 1px #AAA;">
+                            <div class="col-1 mt-2">
+                                <img style="border: rgb(225, 220, 220) 1px solid;" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png" alt="user" width="50px">
+                            </div>
+                            <div class="col-11" style="left: -25px; border-radius: 5px;">
+                                <p class="name" style="font-weight:bold; margin-top: 10px; margin-bottom: 0px;">{{username}}</p>
+                                <p class="comment" style="word-wrap: break-word;">{{content}}</p>
+                            </div>
+                        </div>
+                        {{/with}}
+                        {{/each}}
+                    </div>
+                </div>
+                <!-- Bình luận -->
+
+                <!-- Thể loại tương tự -->
+                <div>
+                    <h4 class="color mt-5">PHIM THỂ LOẠI TƯƠNG TỰ</h4>
+                    <div class="row mt-5">
+                        {{#each genreSame}}
+                        {{#with this}}
+                        <div class="poster col-3">
+                            <img class="image-poster-header" src="{{poster.0.link}}" alt="" width="100%" height="350px">
+                            <div class="middle">
+                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                    <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="" width="80px">
+                                </a>
+                            </div>
+                            <p class="nameMovie">{{name}}</p>
+                        </div>
+                        {{/with}}
+                        {{/each}}
+                    </div>
+                </div>
+                <!-- Thể loại tương tự -->
+            </div>
+        </div>
+
+        <div class="col-xl-2 ml-5 topPhim" style="background-color: #081B27;">
+            <!-- Phim đề xuất -->
+            <div>
+                <h5 class="pt-3 text-center color">PHIM ĐỀ XUẤT</h5>
+                <hr class="bg-color">
+
+                <div class="col-12" style="height: 500px; overflow: auto;">
+                    <div class="danh-sach-phim poster text-white">
+                        {{#each hotMovies}}
+                        {{#with this}}
+                        <div class="row hover mt-3" onclick="window.location.href='http://localhost:5000/movie/{{_id}}'">
+                            <div class="col-5">
+                                <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-film">
+                            </div>
+                            <div class="col-7">
+                                {{name}}
+                            </div>
+                        </div>
+                        {{/with}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <!-- Phim đề xuất -->
+
+            <!-- Phim sắp chiếu -->
+            <div class="mt-5">
+                <h5 class="pt-3 text-center color">PHIM SẮP CHIẾU</h5>
+                <hr class="bg-color">
+
+                <div class="col-12" style="height: 500px; overflow: auto;" >
+                    <div class="danh-sach-phim poster text-white">
+                        {{#each comming_soon}}
+                            {{#with this}}
+                                <div class="row hover mt-3"   onclick="window.location.href='http://localhost:5000/movie/{{_id}}'">
+                                    <div class="col-5">
+                                        <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-film">
+                                    </div>
+                                    <div class="col-7">
+                                        {{name}}
+                                    </div>
+                                </div>
+                            {{/with}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+            <!-- Phim sắp chiếu -->
+        </div>
+    </div>
+</div>
+
+

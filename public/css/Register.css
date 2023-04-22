@@ -1,0 +1,59 @@
+a {
+    color: #bb9a4e;
+    font-style: italic;
+}
+
+a:hover {
+    color: black;
+    text-decoration: none;
+}
+
+.btn-primary {
+    width: 50%;
+    margin-left: 25%;
+    background-color: rgb(240, 168, 81) !important;
+    color: rgb(41, 1, 0);
+    border: none;
+    margin-bottom: 10px;
+}
+
+.custom {
+    text-align: center;
+    margin-top: 10px;
+    color: rgb(240, 168, 81);
+}
+
+body {
+    background-image: url('../images/BackGroundLogin.png');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: 100% 100%;
+}
+
+.form-color {
+    background-color: rgba(33, 33, 32, 0.75) !important;
+    border-color: rgba(0, 0, 0, 0.75) !important;
+}
+
+.form-control:focus {
+    background-color: #f3eac4;
+    outline: #e3d1bd;
+}
+
+.form-control:hover {
+    background-color: #fff5cf;
+}
+
+label {
+    color: white;
+}
+
+.invalid-feedback,
+.invalid-email {
+    color: rgb(233, 15, 15) !important;
+}
+
+#error-mess {
+    color: rgb(233, 15, 15);
+    font-size: small;
+}

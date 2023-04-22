@@ -1,0 +1,55 @@
+    <link rel="stylesheet" href="/css/DetailMovie.css">
+        
+    <!-- Noi dung -->
+    <div class="details-movie">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-4">
+                    <div class="poster mt-4 mb-4 d-flex justify-content-end">
+                        <img src="{{movie.poster.0.link}}" alt="{{name}}" style="height: 400px; width: 300px;">
+                    </div>
+                </div>
+                <div class="col-8 m-auto" style="color: aliceblue;">
+                    <div class="content m-4">
+                        <h2 class="mb-5">{{movie.name}}</h2>
+                        {{#if (isUnderfined rating.avg)}}
+                                <p><b>Đánh giá</b>: Chưa có lượt đánh giá</p>
+                            {{else}}
+                                <p><b>Đánh giá</b>: {{rating.avg}}/10 ({{rating.count}} lượt đánh giá)</p>
+                        {{/if}}
+                        
+                        <p><b>Đạo diễn</b>: {{movie.director}}</p>
+                        <p><b>Thể loại</b>: {{genreName.name}}</p>
+                        <p><b>Thời lượng</b>: {{movie.episodes.length}} Tập</p>
+                        <p><b>Quốc gia</b>: {{movie.country}}</p>
+                        {{#if (neq movie.episodes.length 0)}}
+                            <div class="mt-5">
+                                <a href="./{{movie._id}}/tap-1" type="button" class="btn btn-danger">Xem phim</a>
+                            </div>
+                        {{/if}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mt-3 container content-film">
+        <h4 style="color: #FBC316;">NỘI DUNG PHIM</h4>
+            <p>
+                {{movie.desc}}
+            </p>
+        
+        <h4 style="color: #FBC316;">TRAILER PHIM</h4>
+        <div class="row">
+            <div class="col-sm-12">
+                <div id="headerPopup" class="mfp-hide embed-responsive embed-responsive-21by9">
+                    <iframe width="560" height="315" src="{{movie.trailer.0.link}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class=" footer flex-shrink-0 py-2 bg-dark text-white">
+        <div class="container text-center">
+            <p>Copyright &copy HAY Phim</p>
+        </div>
+    </footer>

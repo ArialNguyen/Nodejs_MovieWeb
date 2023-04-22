@@ -1,0 +1,135 @@
+    <link rel="stylesheet" href="/css/HomePage.css">
+
+    <!-- Danh sach phim hot -->
+    <div id="hotMovie">
+        <div id="carouselExample" class="carousel slide container" data-ride="carousel">
+            <h2 style="color: white; padding: 15px 0px 15px 0px;">PHIM HOT</h2>
+            <div class="carousel-inner view">
+                <div class="carousel-item active">
+                    <div class="row">
+                        {{#each hotMovies}}
+                            {{#with this}}
+                                <div class="poster col-3">
+                                    <img class="image-poster-header" src="{{poster.0.link}}" alt="{{name}}" width="100%" height="350px">
+                                    <div class="middle">
+                                        <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                            <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
+                                        </a>
+                                    </div>
+                                    <p class="nameMovie text-center">{{name}}</p>
+                                </div>
+                            {{/with}}
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+
+            {{!-- <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+
+            <a class="carousel-control-next" href="#carouselExample" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a> --}}
+        </div>
+    </div>
+    {{!-- --------------------------------------------------------------------------------- --}}
+    <div class="container">
+        <div class="row">
+            <div class="col-12 m-auto">
+                <ul class="nav nav-tabs mt-4" id="myTab">
+                    <li class="nav-item mb-3">
+                        <a class="nav-link active tab-link-select" id="film-tab" data-toggle="tab" href="#movie_now" role="tab" aria-controls="film" aria-selected="true" style="background-color: #081B27; color:#FBC316;">PHIM MỚI</a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link tab-link-select" id="film-tab" data-toggle="tab" href="#hay_movie" role="tab" aria-controls="film" aria-selected="false" style="background-color:#081B27; color: #FBC316;">PHIM HAY</a>
+                    </li>
+                    <li class="nav-item mb-3">
+                        <a class="nav-link tab-link-select" id="film-tab" data-toggle="tab" href="#movie_commingsoon" role="tab" aria-controls="film" aria-selected="false" style="background-color:#081B27; color: #FBC316;">SẮP RA MẮT</a>
+                    </li>
+                </ul>
+                <br>
+                <div class="tab-content" id="myTabContent">
+                    <!-- Phim dang chieu -->
+                    <div class="tab-pane fade show active" id="movie_now">
+                        <div class="phim-moi">
+                            <div class="row ">
+                                <!-- Danh sach phim dang chieu -->
+                                {{#each not_full}}
+                                    {{#with this}}
+                                        <div class="danh-sach-phim poster col-xl-2 col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                            <div class="article">
+                                                <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-poster">
+                                            </div>
+                                            <div class="middle">
+                                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
+                                                </a>
+                                            </div>
+                                            <p>{{name}}</p>
+                                        </div>
+                                    {{/with}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phim da chieu -->
+                    <div class="tab-pane fade show" id="hay_movie">
+                        <div class="phim-moi">
+                            <div class="row ">
+                                <!-- Danh sach phim da chieu -->
+                                {{#each full}}
+                                    {{#with this}}
+                                        <div class="danh-sach-phim poster col-xl-2 col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                            <div class="article">
+                                                <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-poster">
+                                            </div>
+                                            <div class="middle">
+                                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
+                                                </a>
+                                            </div>
+                                            <p>{{name}}</p>
+                                        </div>
+                                    {{/with}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phim sap chieu -->
+                    <div class="tab-pane fade show" id="movie_commingsoon">
+                        <div class="phim-sap-chieu">
+                            <div class="row" style="height: 300px;">
+                                <!-- Danh sach phim sap chieu -->
+                                {{#each comming_soon}}
+                                    {{#with this}}
+                                        <div class="danh-sach-phim poster col-xl-2 col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                            <div class="article">
+                                                <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-poster">
+                                            </div>
+                                            <div class="middle">
+                                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                                    <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
+                                                </a>
+                                            </div>
+                                            <p>{{name}}</p>
+                                        </div>
+                                    {{/with}}
+                                {{/each}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class=" footer flex-shrink-0 py-2 bg-dark text-white">
+        <div class="container text-center">
+            <p>Copyright &copy HAY Phim</p>
+        </div>
+    </footer>

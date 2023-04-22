@@ -1,0 +1,7 @@
+{
+    "files.autoSave": "onFocusChange",
+    "css.completion.completePropertyWithSemicolon": true,
+    "css.completion.triggerPropertyValueCompletion": true,
+    "css.format.enable": false,
+    "html.format.wrapLineLength": 5000
+}

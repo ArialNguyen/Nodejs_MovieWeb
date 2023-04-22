@@ -1,0 +1,7 @@
+.details-movie {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.789), rgba(0, 0, 0, 0.755)), url('../Images/BackGroundLogin.png');
+}
+
+.content-film {
+    color: white;
+}

@@ -1,0 +1,144 @@
+<link rel="stylesheet" href="/css/HomePage.css">
+<link rel="stylesheet" href="/css/ManageComment.css">
+
+<div class="container">
+    <div class="m-4">
+        <h2 class="text-center text-white">CHÀO MỪNG QUẢN LÝ</h2>
+    </div>
+    <input type="button" class="btn btn-primary" value="Thêm tài khoản" data-toggle="modal" data-target="#modal-addUser">
+    <!-- table -->
+    <table class="table table-bordered mt-3 text-white text-center">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                {{#with this}}
+                <td>{{plus @index}}</td>
+                <td>{{username}}</td>
+                <td>{{email}}</td>
+                <td>
+                    <span><i class="fa fa-trash action" data-id="{{_id}}" onclick="deleteUser(this)"></i></span>
+                </td>
+                {{/with}}
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+    <!-- table -->
+</div>
+
+<!-- Modal them phim -->
+<div class="modal fade" id="modal-addUser" role="dialog">
+    <div class="modal-dialog modal-md">
+        <form id="form-add">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header row">
+                    <div class="col-11 text-center mt-3">
+                        <h4 class="modal-title">THÊM TÀI KHOẢN</h4>
+                        <p>Nhập đầy đủ thông tin tài khoản</p>
+                    </div>
+                    <div class="col-1">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <div class="form-group mb-3" style="width: 100%">
+                        <label class="form-label" for="username">Username</label>
+                        <input type="username" name="username" id="username" class="form-control" />
+                    </div>
+                    <div class="form-group mb-3" style="width: 100%">
+                        <label class="form-label" for="email">Email</label>
+                        <input type="email" name="email" id="email" class="form-control" />
+                    </div>
+                    <div class="form-group mb-3" style="width: 100%">
+                        <label class="form-label" for="password">Password</label>
+                        <input type="password" name="password" id="password" class="form-control" />
+                    </div>
+                    <div class="form-group mb-3" style="width: 100%">
+                        <label class="form-label" for="cfpassword">Confirm Password</label>
+                        <input type="cfpassword" id="cfpassword" class="form-control" />
+                    </div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-primary" value="Reset">Reset</button>
+                    <button type="button" class="btn btn-danger" onclick="btn_add()">Add User</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal them phim -->
+
+<!-- Modal delete user -->
+<div class="modal fade" id="modal-delUser" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="m-auto">
+                    <h4 class="modal-title ">Bạn muốn xóa tài khoản này?</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-primary" value="Reset">Cancel</button>
+                <button type="submit" class="btn btn-danger">Delete User</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal delete user -->
+<footer class="footer flex-shrink-0 py-2 bg-dark text-white">
+    <div class="container text-center">
+        <p>Copyright &copy HAY Phim</p>
+    </div>
+</footer>
+{{#if sendMail}}
+    <div id="nofication" class="bg-success rounded-pill" style="width: fit-content;padding:15px;position:absolute;bottom: 5%; right: 3%;">
+        Send mail Success
+    </div>
+    <script>
+        $("#nofication").fadeIn(5000)
+        $("#nofication").fadeOut(5000)
+    </script>
+{{/if}}
+
+<script>
+    async function deleteUser(x) {
+        let id = x.getAttribute("data-id")
+        const { data: { success } } = await axios.delete('/api/v1/user/' + id)
+        if (success) {
+            window.location.reload()
+        }
+    }
+    async function btn_add() {
+        let email = $("#email").val()
+        let username = $("#username").val()
+        let password = $("#password").val()
+        if (!email || !username || !password) {
+            return alert("Vui lòng nhập đầy đủ thông tin")
+        }
+        if(password != $("#cfpassword").val()){
+            return alert("Mật khẩu không khớp")
+        }
+        const { data: { success, msg } } = await axios.post('/api/v1/user', { email, username, password })
+        if (!success) {
+            return alert(msg)
+        }
+        window.location.reload()
+            // Thong bao cho admin biet la da gui mail
+    }
+
+</script>

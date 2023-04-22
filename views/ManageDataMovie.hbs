@@ -1,0 +1,502 @@
+<link rel="stylesheet" href="/css/HomePage.css" />
+
+<div class="container">
+    <div class="m-4">
+        <h2 class="text-center text-white">QUẢN LÝ DỮ LIỆU</h2>
+    </div>
+
+    <div class="col-12 m-auto">
+        <h3 class="text-white">{{movie.name}}</h3>
+        <ul class="nav nav-tabs mt-4" id="myTab">
+            <li class="nav-item mb-3">
+                <a class="nav-link active tab-link-select" id="film-tab" data-toggle="tab" href="#episodes" role="tab"
+                    aria-controls="film" aria-selected="true"
+                    style="background-color: #081B27; color:#FBC316;">EPISODES</a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link tab-link-select" id="film-tab" data-toggle="tab" href="#trailer" role="tab"
+                    aria-controls="film" aria-selected="false"
+                    style="background-color:#081B27; color: #FBC316;">TRAILER</a>
+            </li>
+            <li class="nav-item mb-3">
+                <a class="nav-link tab-link-select" id="film-tab" data-toggle="tab" href="#poster" role="tab"
+                    aria-controls="film" aria-selected="false"
+                    style="background-color:#081B27; color: #FBC316;">POSTER</a>
+            </li>
+        </ul>
+        <br>
+        <div class="tab-content" id="myTabContent">
+            <!-- Episode -->
+            <div class="tab-pane fade show active" id="episodes">
+                <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px"
+                    data-toggle="modal" data-target="#modal-addEpisode">
+                    <div style="display: inline; margin: auto">
+                        <h4 style="display: inline; vertical-align: middle;">THÊM TẬP MỚI</h4>
+                        <img src="https://cdn-icons-png.flaticon.com/512/4315/4315609.png" alt="add" width="50px"
+                            class="ml-3" />
+                    </div>
+                </button>
+
+                <!-- table -->
+                <table class="table table-bordered mt-3 text-white text-center">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên tập</th>
+                            <th>Đường dẫn</th>
+                            <th>Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each movie.episodes}}
+                        {{#with this}}
+                        <tr>
+                            <td>{{plus @index}}</td>
+                            <td>{{name}}</td>
+                            <td><a href="{{link}}">{{link}}</a></td>
+                            <td>
+                                <span><i class="fa fa-trash delete delete-episode" data-id="{{_id}}" data-toggle="modal" data-target="#modal-delete-episode"></i></span>
+                            </td>
+                        </tr>
+                        {{/with}}
+                        {{/each}}
+                    </tbody>
+                </table>
+                <!-- table -->
+            </div>
+            <!-- Trailer -->
+            <div class="tab-pane fade show" id="trailer">
+                <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px"
+                    data-toggle="modal" data-target="#modal-addTrailer">
+                    <div style="display: inline; margin: auto">
+                        <h4 style="display: inline; vertical-align: middle;">THÊM TRAILER MỚI</h4>
+                        <img src="https://cdn-icons-png.flaticon.com/512/4315/4315609.png" alt="add" width="50px" class="ml-3" />
+                    </div>
+                </button>
+
+                <!-- table -->
+                <table class="table table-bordered mt-3 text-white text-center">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên trailer</th>
+                            <th>Đường dẫn</th>
+                            <th>Mặc định</th>
+                            <th>Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each movie.trailer}}
+                        {{#with this}}
+                        <tr>
+                            <td>{{plus @index}}</td>
+                            <td>{{name}}</td>
+                            <td><a href="{{link}}">{{link}}</a></td>
+                            <td>
+                                {{#if active}}
+                                <input checked type="radio" data-id="{{_id}}" class="form-check-input" name="trailer_active" id="active" data-toggle="modal" data-target="#confirm-active-trailer">
+                                {{/if}}
+                                {{#unless active}}
+                                <input type="radio" data-id="{{_id}}" class="form-check-input" name="trailer_active" id="active" data-toggle="modal" data-target="#confirm-active-trailer">
+                                {{/unless}}
+                            </td>
+                            <td>
+                                <span><i class="fa fa-trash delete delete-trailer" data-id="{{_id}}" data-toggle="modal" data-target="#modal-delete-trailer"></i></span>
+                            </td>
+                        </tr>
+                        {{/with}}
+                        {{/each}}
+                    </tbody>
+                </table>
+                <!-- table -->
+            </div>
+            <!-- Poster -->
+            <div class="tab-pane fade show" id="poster">
+                <button class="card card-custom bg-dark border-0 text-white" style="height: 70px; width: 300px" data-toggle="modal" data-target="#modal-addPoster">
+                    <div style="display: inline; margin: auto">
+                        <h4 style="display: inline; vertical-align: middle;">THÊM POSTER MỚI</h4>
+                        <img src="https://cdn-icons-png.flaticon.com/512/4315/4315609.png" alt="add" width="50px" class="ml-3" />
+                    </div>
+                </button>
+
+                <!-- table -->
+                <table class="table table-bordered mt-3 text-white text-center">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên poster</th>
+                            <th>Đường dẫn</th>
+                            <th>Mặc định</th>
+                            <th>Tùy chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each movie.poster}}
+                        {{#with this}}
+                        <tr>
+                            <td>{{plus @index}}</td>
+                            <td>{{name}}</td>
+                            <td><a href="{{link}}">{{link}}</a></td>
+                            <td>
+                                {{#if active}}
+                                <input checked type="radio" class="form-check-input" data-id="{{_id}}" name="poster_active" id="active" data-toggle="modal" data-target="#confirm-active">
+                                {{/if}}
+                                {{#unless active}}
+                                <input type="radio" class="form-check-input" data-id="{{_id}}" name="poster_active" id="active" data-toggle="modal" data-target="#confirm-active">
+                                {{/unless}}
+                            </td>
+                            <td>
+                                <span><i class="fa fa-trash delete delete-poster" data-id="{{_id}}" data-toggle="modal" data-target="#modal-delete-poster"></i></span>
+                            </td>
+                        </tr>
+                        {{/with}}
+                        {{/each}}
+                    </tbody>
+                </table>
+                <!-- table -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete episode dialog -->
+<div class="modal fade" id="modal-delete-episode">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Xóa tập phim</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Bạn có chắc rằng muốn xóa tập phim này<strong></strong>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger btn-delete-episode">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete trailer dialog -->
+<div class="modal fade" id="modal-delete-trailer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Xóa trailer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Bạn có chắc rằng muốn xóa trailer này<strong></strong>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger btn-delete-trailer">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete poster dialog -->
+<div class="modal fade" id="modal-delete-poster">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Xóa poster</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Bạn có chắc rằng muốn xóa poster này<strong></strong>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-danger btn-delete-poster" data-dismiss="modal">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add episode dialog -->
+<div class="modal fade" id="modal-addEpisode">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm tập</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-group">
+                    <label><strong>Nhập tên tập</strong></label>
+                    <input type="text" placeholder="Nhập tên tập" class="form-control" id="text-name-add-episode" />
+                </div>
+                <div class="form-froup">
+                    <label><strong>Nhập đường dẫn</strong></label>
+                    <input type="text" placeholder="Nhập đường dẫn" class="form-control" id="text-link-add-episode" />
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success btn_add_episode">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add trailer dialog -->
+<div class="modal fade" id="modal-addTrailer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm trailer</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>Nhập tên trailer<strong></strong></p>
+                <input type="text" placeholder="Nhập tên trailer" class="form-control" id="text-name-add-trailer" />
+            </div>
+
+            <div class="modal-body">
+                <p>Nhập đường dẫn<strong></strong></p>
+                <input type="text" placeholder="Nhập đường dẫn" class="form-control" id="text-link-add-trailer" />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success btn-add-trailer" data-dismiss="modal">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add poster dialog -->
+<div class="modal fade" id="modal-addPoster">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Thêm poster</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <p>Nhập tên poster<strong></strong></p>
+                <input type="text" placeholder="Nhập tên trailer" class="form-control" id="text-name-add-poster" />
+            </div>
+
+            <div class="modal-body">
+                <p>Nhập đường dẫn<strong></strong></p>
+                <input type="text" placeholder="Nhập đường dẫn" class="form-control" id="text-link-add-poster" />
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success btn-add-poster" data-dismiss="modal">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm active dialog -->
+<div class="modal fade" id="confirm-active">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Đặt làm mặc định</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Đây là file mặc định?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger btn-cancel-active" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success btn-confirm-active" data-dismiss="modal">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Confirm active trailer dialog -->
+<div class="modal fade" id="confirm-active-trailer">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title">Đặt làm mặc định</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                Đây là file mặc định?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger cancel-active-trailer" data-dismiss="modal">Hủy</button>
+                <button type="button" class="btn btn-success confirm-active-trailer" data-dismiss="modal">Xác
+                    nhận</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer -->
+<footer class="footer flex-shrink-0 py-2 bg-dark text-white">
+    <div class="container text-center">
+        <p>Copyright &copy HAY Phim</p>
+    </div>
+</footer>
+<!-- Footer -->
+
+<script>
+    $(document).ready(function (e) {
+        var trailerActive = document.getElementsByName('trailer_active');
+        var oldCheckTrailer;
+        for (var i = 0; i < trailerActive.length; i++) {
+            if (trailerActive[i].checked) {
+                oldCheckTrailer = trailerActive[i]
+            }
+        }
+
+        var posterActive = document.getElementsByName('poster_active');
+        var oldCheckPoster;
+        for (var i = 0; i < posterActive.length; i++) {
+            if (posterActive[i].checked) {
+                oldCheckPoster = posterActive[i]
+            }
+        }
+
+        $(".cancel-active-trailer").click(function()  {
+            var trailerActive = document.getElementsByName('trailer_active');
+            for (var i = 0; i < trailerActive.length; i++) {
+                if (trailerActive[i].checked) {
+                    trailerActive[i].checked = false
+                }
+            }
+            oldCheckTrailer.checked = true
+        })
+
+        $(".btn-cancel-active").click(function()  {
+            var posterActive = document.getElementsByName('poster_active');
+            for (var i = 0; i < posterActive.length; i++) {
+                if (posterActive[i].checked) {
+                    posterActive[i].checked = false
+                }
+            }
+            oldCheckPoster.checked = true
+        })
+
+        $(".btn_add_episode").off("click")
+        $(".btn_add_episode").click(async function (e) {
+            let text = $("#text-name-add-episode").val()
+            let link = $("#text-link-add-episode").val()
+            if (text == "" || link == "") {
+                return alert("vui long nhap day du thong tin")
+            }
+            const { data: { success } } = await axios.post(`/api/v1/movie/{{movie._id}}?field=episodes`, { url: link, name: text })
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-add-trailer").off("click")
+        $(".btn-add-trailer").click(async function (e) {
+            let text = $("#text-name-add-trailer").val()
+            let link = $("#text-link-add-trailer").val()
+            if (text == "" || link == "") {
+                return alert("vui long nhap day du thong tin")
+            }
+            const { data: { success } } = await axios.post(`/api/v1/movie/{{movie._id}}?field=trailer`, { url: link, name: text })
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-add-poster").off("click")
+        $(".btn-add-poster").click(async function (e) {
+            let text = $("#text-name-add-poster").val()
+            let link = $("#text-link-add-poster").val()
+            if (text == "" || link == "") {
+                return alert("vui long nhap day du thong tin")
+            }
+            const { data: { success } } = await axios.post(`/api/v1/movie/{{movie._id}}?field=poster`, { url: link, name: text })
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-confirm-active").off("click")
+        $(".btn-confirm-active").click(async function (e) {
+            var posterActive = document.getElementsByName('poster_active');
+            for (var i = 0; i < posterActive.length; i++) {
+                if (posterActive[i].checked) {
+                    var temp = posterActive[i].getAttribute("data-id")
+                    console.log(temp)
+                    const { data: { success } } = await axios.patch(`/api/v1/movie/{{movie._id}}?active=poster&id=${temp}`)
+                }
+            }
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".confirm-active-trailer").off("click")
+        $(".confirm-active-trailer").click(async function (e) {
+            var trailerActive = document.getElementsByName('trailer_active');
+            for (var i = 0; i < posterActive.length; i++) {
+                if (trailerActive[i].checked) {
+                    var temp = trailerActive[i].getAttribute("data-id")
+                    console.log(temp)
+                    const { data: { success } } = await axios.patch(`/api/v1/movie/{{movie._id}}?active=trailer&id=${temp}`)
+                }
+            }
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-delete-episode").off("click")
+        $(".btn-delete-episode").click(async function (e) {
+            var temp = $(".delete-episode").attr("data-id");
+            console.log(temp)
+            const { data: { success } } = await axios.delete(`/api/v1/movie/{{movie._id}}?field=episodes&id=${temp}`)
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-delete-trailer").off("click")
+        $(".btn-delete-trailer").click(async function (e) {
+            var temp = $(".delete-trailer").attr("data-id");
+            console.log(temp)
+            const { data: { success } } = await axios.delete(`/api/v1/movie/{{movie._id}}?field=trailer&id=${temp}`)
+            if (success) {
+                window.location.reload()
+            }
+        })
+
+        $(".btn-delete-poster").off("click")
+        $(".btn-delete-poster").click(async function (e) {
+            var temp = $(".delete-poster").attr("data-id");
+            console.log(temp)
+            const { data: { success } } = await axios.delete(`/api/v1/movie/{{movie._id}}?field=poster&id=${temp}`)
+            if (success) {
+                window.location.reload()
+            }
+        })
+    })
+</script>

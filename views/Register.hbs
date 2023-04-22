@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <!-- Font Awesome CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <title>HAY Cinema | Xem phim thả ga không lo deadline</title>
+    <link rel="icon" href="https://www.3playmedia.com/wp-content/uploads/4-16.png" type="image/x-icon">
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/Register.css">
+</head>
+<body>
+s
+<script>
+    async function register(){
+            let email = $("#email").val()
+            let username = $("#name").val()
+            let password = $("#password").val()
+            let gender = ($("#male").attr("checked"))?"male":"female"
+            if(!email || !username || !password){ // Validate
+                return alert("Vui long nhap day du thong tin")
+            } 
+            if(password != $("#confirmPassword").val()){
+                return alert("Comfirm password doesn't match with password")
+            }
+            axios.post("/api/v1/auth/register", {email, username, gender, password})
+            .then(res => {
+                const {data: {success, msg}} = res
+                if(!success) {
+                    return alert(msg)
+                }
+                location.reload()
+            })
+    }
+</script>
+<div class="container">
+    <div class="mt-5 p-4 border rounded w-50 mx-auto form-color">
+        <h1 class="custom">ĐĂNG KÍ</h1>
+        {{!-- <form action="/api/v1/auth/register" method="post" class="needs-validation" novalidate> --}}
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" class="form-control" placeholder="Nhập email" id="email" name="email" required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-email d-none" id="checkMail">Email này đã tồn tại</div>
+                <div class="invalid-feedback">Vui lòng nhập chính xác email</div>
+            </div>
+            <div class="form-group">
+                <label for="name">Họ và tên *</label>
+                <input type="text" class="form-control" placeholder="Nhập họ và tên" id="name" name="username" required>
+                <div class="valid-feedback"></div>
+                <div class="invalid-feedback">Vui lòng nhập họ tên</div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <div class="form-group">
+                        <label for="password">Mật khẩu *</label>
+                        <input type="password" class="form-control" placeholder="Nhập mật khẩu" id="password" name="password" required>
+                        <div class="valid-feedback"></div>
+                        <div class="invalid-feedback">Bạn chưa nhập mật khẩu</div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label for="confirmPassword"><br></label>
+                        <input type="password" class="form-control" placeholder="Xác nhận mật khẩu" id="confirmPassword" required>
+                        <div id="error-mess"></div>
+                        <div class="invalid-feedback">Vui lòng xác nhận mật khẩu</div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="male" type="radio" name="gender" value="male" checked>
+                <label class="form-check-label" for="male">
+                    Male
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" id="female" type="radio" name="gender" value="female">
+                <label class="form-check-label" for="female">
+                    Female
+                </label>
+            </div>
+            <button type="submit" class="btn btn-primary" onclick="register(this)">Đăng kí</button>
+        {{!-- </form> --}}
+    </div>
+</div>
+
+<div class="modal align-items-end" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-body" style="background-color: #ffffff51;border-color: #ffd36d;">
+                <div class="text-right"> <i class="fa fa-close close" data-dismiss="modal" onclick="closeModal()"></i> </div>
+                    <div class="text-center mt-2"> <img src="https://img.icons8.com/clouds/1x/gmail-new.png" width="60"> </div>
+                    <div class="">
+                        <span class="intro-1 m-auto"><h5 class="text-center">Vui lòng check Gmail để xác nhận thông tin</h5></span>
+                    </div>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+{{#if success_register}}
+    <script>
+        $("#staticBackdrop").fadeIn(2000)
+        function closeModal() {
+            $("#staticBackdrop").fadeOut(1000)
+        }
+    </script>
+{{/if}}
+<script>
+    $(document).ready(function (){
+        
+    })
+</body>
+</html>

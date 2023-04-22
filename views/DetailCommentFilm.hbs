@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="/css/DetailComment.css">
+
+<div class="container mt-3">
+    <div class="d-inline ">
+        <h3 class="d-inline text-warning">BÌNH LUẬN PHIM: </h3>
+        <h3 class="d-inline ten-phim text-white">{{movie.name}}</h3>
+    </div>
+    <div class="row">
+        <div class="col-3">
+            <img src="{{movie.poster.0.link}}" alt="" width="100%" class="image-poster mt-3">
+        </div>
+        <div class="col-9">
+            <!-- table -->
+            <table class="table table-bordered mt-3 text-white text-center">
+                <thead>
+                    <tr>
+                        <th>Delete</th>
+                        <th>STT</th>
+                        <th>Username</th>
+                        <th>Nội dung bình luận</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each comments}}
+                    <tr>
+                        {{#with this}}
+                        <td class="d-none">{{_id}}</td>
+                        <td>
+                            <button class="delete" data-toggle="modal" style="background-color: transparent; border: none;">
+                                <img src="https://cdn-icons-png.flaticon.com/128/1828/1828843.png" alt="delete" width="20px">
+                            </button>
+                        </td>
+                        <td>{{plus @index}}</td>
+                        <td>{{name}}</td>
+                        <td>{{content}}</td>
+                        {{/with}}
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal delete comment -->
+<div class="modal fade" id="modal-delComment" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="m-auto">
+                    <h4 class="modal-title ">Bạn muốn xóa bình luận này?</h4>
+                </div>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-primary" value="Reset">Cancel</button>
+                <button type="submit" class="btn btn-danger btn-delete">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal delete comment -->
+<footer class=" footer flex-shrink-0 py-2 bg-dark text-white">
+    <div class="container text-center">
+        <p>Copyright &copy HAY Phim</p>
+    </div>
+</footer>
+
+<script>
+    $(document).ready(function () {
+        $(".delete").click(function (e) {
+            let rowParent = this.parentElement.parentElement
+            let id = rowParent.children[0].innerText
+            $("#modal-delComment").modal("show")
+            $(".btn-delete").off("click")
+            $(".btn-delete").click(async function (e) {
+                let { data: { success } } = await axios.delete(`http://localhost:5000/api/v1/comment/${id}`)
+                if (success == true) {
+                    location.reload()
+                }
+            })
+        })
+    })
+</script>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Bootstrap CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css'>
+    <!-- Font Awesome CSS -->
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <title>HAY Phim | Xem phim thả ga không lo deadline</title>
+    <link rel="icon" href="https://www.3playmedia.com/wp-content/uploads/4-16.png" type="image/x-icon">
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/HomePage.css">
+</head>
+<body>
+    <!-- banner -->
+    <div class="container-fluid banner">
+        <div class="row">
+            <div class="col-md-4 col-sm-3 col-3">
+                <picture>
+                    <source media="(max-width: 768px)"
+                        srcset="../public/images/banner1.jpg">
+                    <img class="logo-banner" src="/images/banner6.png"
+                        alt="Banner HAYPhim" width="100%"
+                        height="100%" onclick="window.location.href ='/'" id="banner">
+                        <style>
+                            #banner:hover{
+                                cursor: pointer;
+                            }
+                        </style>
+                </picture>
+            </div>
+
+            <div class="input-group col-md-5 col-sm-5 col-3" style="display:inline;">
+                <div class="form-group has-search">
+                    <span class="fa fa-search form-control-feedback"></span>
+                    <input type="text" class="form-control" placeholder="Tìm tên phim, diễn viên..." id="Find_Movie">
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-5">
+                <!-- Login -->
+                <p class="text-white" style="display: inline;">{{user.username}}</p>
+                {{#if user}}
+                    <a href="/logout" id="logout" class="logout">
+                        <button class="login mt-3" style="background-color: transparent; border: none;">
+                            <img src="https://img.icons8.com/arcade/1x/exit.png" alt="login" width="70px">
+                        </button>
+                    </a>
+                    {{else}}
+                    <a href="/login">
+                        <button class="login mt-3" style="background-color: transparent; border: none;">
+                            <img src="https://cdn-icons-png.flaticon.com/128/7856/7856126.png" alt="logout" width="70px">
+                        </button>
+                    </a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    <!-- banner -->
+
+    <!-- nav -->
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-xl-center">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-center" id="collapsibleNavbar">
+            <ul class="navbar-nav">
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="/">TRANG CHỦ</a>
+                </li>
+
+                <li class="nav-item dropdown item">
+                    <a class="nav-link dropdown-toggle link-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">THỂ LOẠI</a>
+                    <div class="dropdown-menu bg-dark">
+                        {{#each genrelist}}
+                        {{#with this}}
+                        <a class="dropdown-item link-tab tab-filter" href="http://localhost:5000/movie?genre={{_id}}">{{name}}</a>
+                        {{/with}}
+                        {{/each}}
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown item">
+                    <a class="nav-link dropdown-toggle link-tab" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">QUỐC GIA</a>
+                    <div class="dropdown-menu bg-dark">
+                        <a class="dropdown-item link-tab tab-filter" href="#">Hàn Quốc</a>
+                        <a class="dropdown-item link-tab tab-filter" href="#">Trung Quốc</a>
+                        <a class="dropdown-item link-tab tab-filter" href="#">Việt Nam</a>
+                        <a class="dropdown-item link-tab tab-filter" href="#">Khác</a>
+                    </div>
+                </li>
+
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="http://localhost:5000/movie?newMovie=1">PHIM MỚI</a>
+                </li>
+
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="http://localhost:5000/movie?series=1">PHIM BỘ</a>
+                </li>
+
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="http://localhost:5000/movie?oneep=1">PHIM LẺ</a>
+                </li>
+
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="http://localhost:5000/movie?hot=1">PHIM HOT</a>
+                </li>
+
+                <li class="nav-item item">
+                    <a class="nav-link link-tab" href="http://localhost:5000/movie?phimhay=1">PHIM HAY</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- nav -->
+    {{{body}}}
+</body>
+</html>
