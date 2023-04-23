@@ -1,6 +1,5 @@
 const express = require("express")
 const Router = express.Router()
-const { getAllFiles } = require("../controllers/movieFile")
 const { default: axios } = require('axios');
 
 Router.route("/").get(async (req, res) => {
