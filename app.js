@@ -93,12 +93,12 @@ app.use((req, res, next) => {
 
 // Home route
 app.get("/", authentication, async (req, res) => {
-    const {data: {movies: hotMovies}} = await axios.get("http://localhost:5000/api/v1/movie?active=trailer,poster&limit=4&hotFilms=8&sort=-avg_Rating")
-    const {data: {movies: comming_soon}} = await axios.get("http://localhost:5000/api/v1/movie?status=comming_soon&active=trailer,poster&limit=12")
-    const {data: {movies: not_full}} = await axios.get("http://localhost:5000/api/v1/movie?status=not_full&active=trailer,poster&limit=12")
-    const {data: {genres: genre}} = await axios.get("http://localhost:5000/api/v1/genre")
-    const {data: {movies: full}} = await axios.get("http://localhost:5000/api/v1/movie?status=full&active=trailer,poster&limit=12")
-    const {data: {genres: genrelist}} = await axios.get("http://localhost:5000/api/v1/genre")
+    const {data: {movies: hotMovies}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/movie?active=trailer,poster&limit=4&hotFilms=8&sort=-avg_Rating")
+    const {data: {movies: comming_soon}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/movie?status=comming_soon&active=trailer,poster&limit=12")
+    const {data: {movies: not_full}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/movie?status=not_full&active=trailer,poster&limit=12")
+    const {data: {genres: genre}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/genre")
+    const {data: {movies: full}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/movie?status=full&active=trailer,poster&limit=12")
+    const {data: {genres: genrelist}} = await axios.get("https://arial-movie.herokuapp.com/api/v1/genre")
 
     // console.log(hotMovies);
 

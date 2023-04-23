@@ -8,7 +8,7 @@ const authentication = (req, res, next) => {
         if( url == "/login" || url == "/register" || url == "/" || new RegExp("/movie/([a-z0-9]+)").test(url) ){
             return next()
         }
-        return res.status(StatusCodes.UNAUTHORIZED).json({success: false, msg: ""})
+        return res.status(StatusCodes.UNAUTHORIZED).render('AccessDenied')
     }
     try {
         const token = req.headers.authorization.split(" ")[1]

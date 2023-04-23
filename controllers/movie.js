@@ -1,36 +1,24 @@
 // Models
 const Movie = require("../models/Movie")
-const Rating = require("../models/Rating")
 // Lib
 const { StatusCodes } = require("http-status-codes")
 const BadRequest = require("../errors/BadRequest");
-const { default: mongoose, Mongoose } = require("mongoose");
 const {removeVietnameseTones} = require("../parseURL");
-const { default: axios } = require("axios");
 
-// function addDays(date, days) {
-//   var result = new Date(date);
-//   result.setDate(result.getDate() + days);
-//   return result;
-// }
 // Movie
 const getAllmovie = async (req, res) => {
-  const { genre, hotFilms, status, active, limit, sort} = req.query
+  const { genre, hotFilms, status, active, limit, sort, name} = req.query
   let execObj = {}
   if (genre) {
     execObj["genre"] = { $eq: genre }
+  }
+  if(name){
+    execObj["name"] = {$regex: name, $options: 'i'} 
   }
   if (hotFilms) {
     execObj["avg_Rating"] = {$gte: hotFilms}
   }
   if (status) {
-    // let currentDate = new Date(Date.now())
-    // let N_day = new Date(Date.now())
-    // // console.log(currentDate.toISOString(), N_day.addDays(5).toISOString());
-    // execObj['releaseDate'] = {
-    //   $gte: currentDate,
-    //   $lte: addDays(N_day, parseInt(upcoming))
-    // }
     execObj['status'] = status
   }
 
@@ -117,24 +105,6 @@ const updateMovie = async (req, res) => {
     ]})  
     if(!acknowledged) return res.status(StatusCodes.BadRequest).json({success: false, msg: `Error when updating active ${active}`})
     res.status(StatusCodes.OK).json({success: true})
-        
-  // }else if (star){
-  //   // let userId = req.user._id
-  //   let userId = new mongoose.Types.ObjectId()
-  //   let rating_check = await Rating.findOneAndUpdate({userId: userId, moiveId: req.params.id}, {
-  //     rating_num: star
-  //   })
-  //   if(!rating_check){
-  //     rating_check =  await Rating.create({rating_num: star, userId, moiveId: req.params.id})
-  //   }
-  //   const {data: {success, total}} = await axios.get(`http://localhost:5000/api/v1/rating?movieId=${req.params.id}`)
-  //   if(success){ // Update rating total of movie
-  //     const {data: {success: sc}} = await axios.patch(`http://localhost:5000/api/v1/movie/${req.params.id}?avg_rating=1`, {avg_Rating: total.avg})
-  //     if(sc){
-  //       return res.status(StatusCodes.OK).json({success: true})
-  //     }
-  //   }
-  //   return res.status(StatusCodes.NO_CONTENT).json({success: false})
   }else if(avg_rating){
     const mv = await Movie.findOneAndUpdate({_id: req.params.id}, req.body)
     if(!mv) return res.status(StatusCodes.BAD_REQUEST).json({success: false, msg: "Something error when update avg rating"})
@@ -168,11 +138,7 @@ const deleteMovie = async (req, res) => {
   res.status(StatusCodes.OK).json({ success: true })
 }
 
-const loadEpisodes = (req, res) => {
-  console.log("come");
-}
-
-module.exports = { getAllmovie, createMovie, updateMovie, deleteMovie, getMovieById, createField, loadEpisodes}
+module.exports = { getAllmovie, createMovie, updateMovie, deleteMovie, getMovieById, createField}
 
 
 

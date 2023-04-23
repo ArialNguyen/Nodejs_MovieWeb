@@ -74,7 +74,7 @@
             $("#modal-delComment").modal("show")
             $(".btn-delete").off("click")
             $(".btn-delete").click(async function (e) {
-                let { data: { success } } = await axios.delete(`http://localhost:5000/api/v1/comment/${id}`)
+                let { data: { success } } = await axios.delete(`https://arial-movie.herokuapp.com/api/v1/comment/${id}`)
                 if (success == true) {
                     location.reload()
                 }

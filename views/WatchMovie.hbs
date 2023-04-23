@@ -5,7 +5,7 @@
 </script>
 <script type="module">
     import { io } from "https://cdn.socket.io/4.4.1/socket.io.esm.min.js";
-    var socket = io('http://localhost:5000/');
+    var socket = io('https://arial-movie.herokuapp.com/');
     document.getElementById("postCmt").addEventListener("click", postCmt, false)
     async function postCmt() {
         try{
@@ -82,7 +82,7 @@
                     {{#with movie}}
                     {{#each this.episodes}}
                     {{#with this}}
-                    <a href="http://localhost:5000/movie/{{../../movie._id}}/{{changeURL name}}" class="btn btn-light mt-2">{{name}}</a>
+                    <a href="https://arial-movie.herokuapp.com/movie/{{../../movie._id}}/{{changeURL name}}" class="btn btn-light mt-2">{{name}}</a>
                     {{/with}}
                     {{/each}}
                     {{/with}}
@@ -159,7 +159,7 @@
                         <div class="poster col-3">
                             <img class="image-poster-header" src="{{poster.0.link}}" alt="" width="100%" height="350px">
                             <div class="middle">
-                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                <a href="https://arial-movie.herokuapp.com/movie/{{_id}}" type="button" class="btn">
                                     <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="" width="80px">
                                 </a>
                             </div>
@@ -183,7 +183,7 @@
                     <div class="danh-sach-phim poster text-white">
                         {{#each hotMovies}}
                         {{#with this}}
-                        <div class="row hover mt-3" onclick="window.location.href='http://localhost:5000/movie/{{_id}}'">
+                        <div class="row hover mt-3" onclick="window.location.href='https://arial-movie.herokuapp.com/movie/{{_id}}'">
                             <div class="col-5">
                                 <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-film">
                             </div>
@@ -207,7 +207,7 @@
                     <div class="danh-sach-phim poster text-white">
                         {{#each comming_soon}}
                             {{#with this}}
-                                <div class="row hover mt-3"   onclick="window.location.href='http://localhost:5000/movie/{{_id}}'">
+                                <div class="row hover mt-3"   onclick="window.location.href='https://arial-movie.herokuapp.com/movie/{{_id}}'">
                                     <div class="col-5">
                                         <img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-film">
                                     </div>

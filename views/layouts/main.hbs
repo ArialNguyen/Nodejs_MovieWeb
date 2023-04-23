@@ -39,8 +39,8 @@
 
             <div class="input-group col-md-5 col-sm-5 col-3" style="display:inline;">
                 <div class="form-group has-search">
-                    <span class="fa fa-search form-control-feedback"></span>
-                    <input type="text" class="form-control" placeholder="Tìm tên phim, diễn viên..." id="Find_Movie">
+                    <span class="fa fa-search form-control-feedback" ></span>
+                    <input type="text" class="form-control" placeholder="Tìm tên phim, diễn viên..." onkeydown="find()" id="Find_Movie">
                 </div>
             </div>
 
@@ -82,7 +82,7 @@
                     <div class="dropdown-menu bg-dark">
                         {{#each genrelist}}
                         {{#with this}}
-                        <a class="dropdown-item link-tab tab-filter" href="http://localhost:5000/movie?genre={{_id}}">{{name}}</a>
+                        <a class="dropdown-item link-tab tab-filter" href="https://arial-movie.herokuapp.com/movie?genre={{_id}}">{{name}}</a>
                         {{/with}}
                         {{/each}}
                     </div>
@@ -99,23 +99,23 @@
                 </li>
 
                 <li class="nav-item item">
-                    <a class="nav-link link-tab" href="http://localhost:5000/movie?newMovie=1">PHIM MỚI</a>
+                    <a class="nav-link link-tab" href="https://arial-movie.herokuapp.com/movie?newMovie=1">PHIM MỚI</a>
                 </li>
 
                 <li class="nav-item item">
-                    <a class="nav-link link-tab" href="http://localhost:5000/movie?series=1">PHIM BỘ</a>
+                    <a class="nav-link link-tab" href="https://arial-movie.herokuapp.com/movie?series=1">PHIM BỘ</a>
                 </li>
 
                 <li class="nav-item item">
-                    <a class="nav-link link-tab" href="http://localhost:5000/movie?oneep=1">PHIM LẺ</a>
+                    <a class="nav-link link-tab" href="https://arial-movie.herokuapp.com/movie?oneep=1">PHIM LẺ</a>
                 </li>
 
                 <li class="nav-item item">
-                    <a class="nav-link link-tab" href="http://localhost:5000/movie?hot=1">PHIM HOT</a>
+                    <a class="nav-link link-tab" href="https://arial-movie.herokuapp.com/movie?hot=1">PHIM HOT</a>
                 </li>
 
                 <li class="nav-item item">
-                    <a class="nav-link link-tab" href="http://localhost:5000/movie?phimhay=1">PHIM HAY</a>
+                    <a class="nav-link link-tab" href="https://arial-movie.herokuapp.com/movie?phimhay=1">PHIM HAY</a>
                 </li>
             </ul>
         </div>
@@ -123,4 +123,17 @@
     <!-- nav -->
     {{{body}}}
 </body>
+<script>
+    {{!-- function find(){
+        alert($("#Find_Movie").val())
+    } --}}
+    $("#Find_Movie").keydown(function(e){
+        if(e.key == "Enter" || e.which == 13){
+            let val = $("#Find_Movie").val()
+            if (!val) return alert("Please Enter films")
+            $("#Find_Movie").val("")
+            location.href = `https://arial-movie.herokuapp.com/movie?name=${val}`
+        }
+    })
+</script>
 </html>

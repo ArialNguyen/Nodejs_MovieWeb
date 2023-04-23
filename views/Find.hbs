@@ -3,7 +3,12 @@
     <!-- Danh sach phim hot -->
     <div id="hotMovie">
         <div id="carouselExample" class="carousel slide container" data-ride="carousel">
-            <h2 style="color: white; padding: 15px 0px 15px 0px;">Phim {{genreName.name}}</h2>
+            {{#if genreName}}
+                    <h2 style="color: white; padding: 15px 0px 15px 0px;">Từ khóa cho phim: {{genreName.key}}</h2>
+                {{else}}
+                    <h2 style="color: white; padding: 15px 0px 15px 0px;">Phim {{genreName.name}}</h2>
+            {{/if}}
+            
             <div class="carousel-inner view">
                 <div class="carousel-item active">
                     <div class="row">
@@ -12,7 +17,7 @@
                         <div class="poster col-3">
                             <img class="image-poster-header" src="{{poster.0.link}}" alt="{{name}}" width="100%" height="350px">
                             <div class="middle">
-                                <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                                <a href="https://arial-movie.herokuapp.com/movie/{{_id}}" type="button" class="btn">
                                     <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
                                 </a>
                             </div>
@@ -46,7 +51,7 @@
                         img src="{{poster.0.link}}" alt="{{name}}" width="100%" class="image-poster">
                     </div>
                     <div class="middle">
-                        <a href="http://localhost:5000/movie/{{_id}}" type="button" class="btn">
+                        <a href="https://arial-movie.herokuapp.com/movie/{{_id}}" type="button" class="btn">
                             <img src="https://cdn-icons-png.flaticon.com/512/4208/4208490.png" alt="{{name}}" width="80px">
                         </a>
                     </div>

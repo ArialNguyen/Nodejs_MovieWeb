@@ -32,15 +32,11 @@ const createRating = async (req, res) => {
       rating_num: star
     })
     if(!rating_check){
-      console.log("chua rating");
       rating_check =  await Rating.create({rating_num: star, userId, moiveId: movieId})
     }
-    console.log("rating");
-    const {data: {success, total}} = await axios.get(`http://localhost:5000/api/v1/rating?movieId=${movieId}`)
+    const {data: {success, total}} = await axios.get(`https://arial-movie.herokuapp.com/api/v1/rating?movieId=${movieId}`)
     if(success){ // Update rating total of movie
-      console.log(total);
-      console.log(movieId, star);
-      const {data: {success: sc}} = await axios.patch(`http://localhost:5000/api/v1/movie/${movieId}?avg_rating=1`, {avg_Rating: total.avg}, { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${req.cookies.accessToken}` }})
+      const {data: {success: sc}} = await axios.patch(`https://arial-movie.herokuapp.com/api/v1/movie/${movieId}?avg_rating=1`, {avg_Rating: total.avg}, { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${req.cookies.accessToken}` }})
       if(sc){
         return res.status(StatusCodes.OK).json({success: true})
       }
